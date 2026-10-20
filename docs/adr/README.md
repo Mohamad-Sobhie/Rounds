@@ -6,3 +6,4 @@ Copy [`template.md`](template.md) to `NNNN-short-title.md` to add one.
 | ADR                                 | Title                                                            | Status   |
 | ----------------------------------- | ---------------------------------------------------------------- | -------- |
 | [0001](0001-time-derived-engine.md) | Derive workout position from the clock instead of counting ticks | Accepted |
+| [0002](0002-native-cue-player.md)   | Play cues from a native audio timeline                           | Accepted |

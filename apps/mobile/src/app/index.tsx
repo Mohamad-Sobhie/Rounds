@@ -20,7 +20,17 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Rounds</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Rounds</Text>
+        <Pressable
+          onPress={() => router.push('/settings')}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel="Settings"
+        >
+          <Icon name="gearshape" color={colors.ink} />
+        </Pressable>
+      </View>
 
       {inProgress && (
         <Pressable
@@ -61,13 +71,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     paddingHorizontal: space.l,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: space.xl,
+    marginBottom: space.l,
+  },
   title: {
     fontFamily: fonts.displayHeavy,
     fontSize: 56,
     color: colors.ink,
     textTransform: 'uppercase',
-    marginTop: space.xl,
-    marginBottom: space.l,
   },
   row: {
     flexDirection: 'row',

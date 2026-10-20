@@ -9,8 +9,10 @@ import { useStore } from 'zustand';
 import { Icon } from '@/components/icon';
 import { colors, fonts, phaseColors, space } from '@/theme';
 import { ProgressRings } from '@/workout/progress-rings';
+import { settingsStore } from '@/settings/settings';
 import { clock, sessionStore } from '@/workout/session';
 import { useSnapshot } from '@/workout/use-snapshot';
+import { useWorkoutCues } from '@/workout/use-workout-cues';
 import { workoutView } from '@/workout/view-model';
 
 const phaseNames: Record<SegmentKind, string> = {
@@ -26,6 +28,7 @@ export default function WorkoutScreen() {
   const workout = useStore(sessionStore, (state) => state.workout);
   const dispatch = useStore(sessionStore, (state) => state.dispatch);
   const snapshot = useSnapshot(sessionStore, clock);
+  useWorkoutCues(sessionStore, settingsStore, clock, snapshot);
   const { width, height } = useWindowDimensions();
 
   if (!workout) return <Redirect href="/" />;
