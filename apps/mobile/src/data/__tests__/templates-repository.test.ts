@@ -2,6 +2,7 @@ import type { Template } from '@rounds/core';
 
 import type { Database } from '../database';
 import { migrate, migrations } from '../migrations';
+import { MetaRepository } from '../meta-repository';
 import { TemplatesRepository } from '../templates-repository';
 import { createTestDatabase } from '../../test/sqljs-database';
 
@@ -103,5 +104,15 @@ describe('TemplatesRepository', () => {
       [],
     );
     expect((await repo.list()).map((t) => t.id)).toEqual(['a']);
+  });
+});
+
+describe('MetaRepository', () => {
+  it('stores and overwrites values', async () => {
+    const meta = new MetaRepository(db);
+    expect(await meta.get('k')).toBeNull();
+    await meta.set('k', '1');
+    await meta.set('k', '2');
+    expect(await meta.get('k')).toBe('2');
   });
 });
