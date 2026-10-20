@@ -1,15 +1,38 @@
 # Rounds
 
-Cardio interval timer for iOS and Android. Built with React Native (Expo).
+[![CI](https://github.com/Mohamad-Sobhie/Rounds/actions/workflows/ci.yml/badge.svg)](https://github.com/Mohamad-Sobhie/Rounds/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Work is tracked in [GitHub issues](https://github.com/Mohamad-Sobhie/Rounds/issues) by milestone.
+A cardio interval timer built for use on a treadmill, bike or rower: big, glanceable cues on screen, and audio cues that keep working with the phone locked.
 
-## Repository layout
+> Status: in development. Work is tracked in [GitHub issues](https://github.com/Mohamad-Sobhie/Rounds/issues) by milestone.
 
-| Path            | What                                                                                                          |
-| --------------- | ------------------------------------------------------------------------------------------------------------- |
-| `packages/core` | Domain model, timeline compiler and timing engine. Pure TypeScript, no React Native, unit-tested with Vitest. |
-| `apps/mobile`   | Expo app (Expo Router, development builds).                                                                   |
+<!-- Screenshots go here once the workout screen lands. -->
+
+## Features (planned for the first release)
+
+- Templates made of rounds, blocks and steps, with per-step labels such as "Level 8" or "Incline 6"
+- Quick routine: warm-up, work, rest, repeats and rounds without saving a template
+- Full-screen workout view with phase colours, progress rings and a "next step" preview
+- Countdown beeps, spoken announcements and vibration, with the screen locked, mixed with your music
+- Local activity history with weekly to yearly charts
+- Fully offline: no account, no backend
+
+## Architecture
+
+```
+apps/mobile          Expo app: screens, state, native audio integration
+  └── depends on
+packages/core        Pure TypeScript: domain model, timeline compiler, timing engine, cue planning
+```
+
+A few principles drive the design:
+
+- **Compile, then play.** A workout template is compiled into a flat, immutable timeline of segments. Everything at runtime reads from that timeline.
+- **Time is derived, never counted.** The engine stores `{ startedAt, pausedAt, totalPausedMs, seekMs }` and computes the position from the current time. Nothing drifts when the app is backgrounded, and the UI only re-renders.
+- **Commands as data.** Start, pause, resume and skip are timestamped commands applied to the state by a pure reducer. That keeps the engine fully testable with a fake clock and leaves room for group sessions later, where commands arrive over the network.
+
+Design decisions are recorded in [`docs/adr`](docs/adr).
 
 ## Getting started
 
@@ -28,3 +51,11 @@ Run the app in the iOS simulator (builds a development client the first time):
 ```bash
 pnpm --filter @rounds/mobile ios
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+[MIT](LICENSE)
