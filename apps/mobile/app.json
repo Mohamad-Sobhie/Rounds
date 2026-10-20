@@ -8,10 +8,12 @@
     "scheme": "rounds",
     "userInterfaceStyle": "light",
     "ios": {
-      "bundleIdentifier": "com.mohamad-sobhie.rounds",
+      "bundleIdentifier": "com.mohamadsobhie.rounds",
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
-      }
+        "UIBackgroundModes": ["audio"],
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +21,8 @@
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.mohamadsobhie.rounds"
     },
     "plugins": [
       "expo-router",
@@ -38,6 +41,7 @@
       "typedRoutes": true,
       "reactCompiler": true
     },
-    "backgroundColor": "#FFFFFF"
+    "backgroundColor": "#FFFFFF",
+    "description": "Cardio interval timer with big, glanceable cues and audio that keeps going with the screen locked."
   }
 }
