@@ -13,6 +13,10 @@ export const migrations: readonly string[] = [
      created_utc INTEGER NOT NULL,
      updated_utc INTEGER NOT NULL
    );`,
+  `CREATE TABLE meta (
+     key TEXT PRIMARY KEY NOT NULL,
+     value TEXT NOT NULL
+   );`,
 ];
 
 export async function migrate(db: Database): Promise<void> {
