@@ -1,0 +1,21 @@
+{
+  "name": "@rounds/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Domain model, timeline compiler and timing engine for Rounds. Pure TypeScript, no UI dependencies.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.5"
+  }
+}
