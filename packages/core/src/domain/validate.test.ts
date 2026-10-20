@@ -63,6 +63,7 @@ describe('validateTemplate', () => {
       { ...valid, rounds: [round(block([work(30)], 2, 60))] },
       'rounds.0.blocks.0.lastRepeatRestOverrideSec',
     ],
+    ['a workout with only rest steps', { ...valid, rounds: [round(block([rest(30)]))] }, 'rounds'],
     ['an empty name', { ...valid, name: '' }, 'name'],
     ['an unknown activity', { ...valid, activity: 'swim' }, 'activity'],
     ['a zero recovery', { ...valid, recoverySec: 0 }, 'recoverySec'],

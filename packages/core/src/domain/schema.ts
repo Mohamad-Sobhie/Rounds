@@ -54,16 +54,24 @@ export const RoundSchema = z.object({
   blocks: z.array(BlockSchema).min(1),
 });
 
-export const TemplateSchema = z.object({
-  id,
-  name: z.string().trim().min(1),
-  activity: ActivityTypeSchema,
-  warmUp: TimedSegmentSchema.optional(),
-  rounds: z.array(RoundSchema).min(1),
-  /** Rest between rounds. Absent means no recovery. */
-  recoverySec: durationSec.optional(),
-  cooldown: TimedSegmentSchema.optional(),
-});
+export const TemplateSchema = z
+  .object({
+    id,
+    name: z.string().trim().min(1),
+    activity: ActivityTypeSchema,
+    warmUp: TimedSegmentSchema.optional(),
+    rounds: z.array(RoundSchema).min(1),
+    /** Rest between rounds. Absent means no recovery. */
+    recoverySec: durationSec.optional(),
+    cooldown: TimedSegmentSchema.optional(),
+  })
+  .refine(
+    (template) =>
+      template.rounds.some((round) =>
+        round.blocks.some((block) => block.steps.some((step) => step.kind === 'work')),
+      ),
+    { message: 'A workout needs at least one work step', path: ['rounds'] },
+  );
 
 export type ActivityType = z.infer<typeof ActivityTypeSchema>;
 export type StepKind = z.infer<typeof StepKindSchema>;
