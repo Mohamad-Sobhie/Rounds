@@ -9,8 +9,8 @@ dist/
 .expo/
 web-build/
 expo-env.d.ts
-ios/
-android/
+/apps/mobile/ios/
+/apps/mobile/android/
 
 # Native builds
 *.jks
@@ -23,3 +23,7 @@ android/
 .metro-health-check*
 .kotlin/
 *.pem
+
+# EAS run from the repo root by mistake (the app lives in apps/mobile)
+/app.json
+/eas.json
