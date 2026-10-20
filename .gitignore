@@ -19,3 +19,7 @@ android/
 *.key
 *.mobileprovision
 *.orig.*
+*.tsbuildinfo
+.metro-health-check*
+.kotlin/
+*.pem
