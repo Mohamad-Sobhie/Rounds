@@ -1,3 +1,5 @@
+<img src="docs/brand/icon.svg" width="96" alt="Rounds icon" align="right" />
+
 # Rounds
 
 [![CI](https://github.com/Mohamad-Sobhie/Rounds/actions/workflows/ci.yml/badge.svg)](https://github.com/Mohamad-Sobhie/Rounds/actions/workflows/ci.yml)
