@@ -1,4 +1,4 @@
-import { formatClock } from '@rounds/core';
+import { formatClock, type SegmentKind } from '@rounds/core';
 import { useKeepAwake } from 'expo-keep-awake';
 import { Redirect, router, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -12,6 +12,14 @@ import { ProgressRings } from '@/workout/progress-rings';
 import { clock, sessionStore } from '@/workout/session';
 import { useSnapshot } from '@/workout/use-snapshot';
 import { workoutView } from '@/workout/view-model';
+
+const phaseNames: Record<SegmentKind, string> = {
+  warmup: 'Warm-up',
+  work: 'Work',
+  rest: 'Rest',
+  recovery: 'Recovery',
+  cooldown: 'Cooldown',
+};
 
 export default function WorkoutScreen() {
   useKeepAwake();
@@ -54,7 +62,7 @@ export default function WorkoutScreen() {
 
   const confirmEnd = () => {
     if (isReady) return close();
-    Alert.alert('End workout?', 'Your progress so far will be saved.', [
+    Alert.alert('End workout?', "You won't be able to resume it.", [
       { text: 'Keep going', style: 'cancel' },
       { text: 'End', style: 'destructive', onPress: () => dispatch('stop') },
     ]);
@@ -67,7 +75,9 @@ export default function WorkoutScreen() {
       <SafeAreaView style={styles.safe}>
         <View style={styles.topBar}>
           <IconButton icon="xmark" color={fg} onPress={confirmEnd} label="End workout" />
-          <Text style={[styles.phase, { color: fg }]}>{isPaused ? 'Paused' : view.phase}</Text>
+          <Text style={[styles.phase, { color: fg }]}>
+            {isPaused ? 'Paused' : phaseNames[view.phase]}
+          </Text>
           <View style={styles.iconButton} />
         </View>
 
