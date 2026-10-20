@@ -4,7 +4,7 @@ import { ActivitiesRepository, type ActivityRecord } from '../../data/activities
 import { migrate } from '../../data/migrations';
 import { createTestDatabase } from '../../test/sqljs-database';
 import type { ActiveWorkout } from '../../workout/session-store';
-import { bucketsFor, formatTotal, summarize } from '../buckets';
+import { bucketsFor, formatTotal, labelGroups, summarize } from '../buckets';
 import { activityRecordFor } from '../record';
 
 const template: Template = {
@@ -158,5 +158,16 @@ describe('bucketing', () => {
     [11_000, '11 s'],
   ])('formats %i ms as "%s"', (ms, text) => {
     expect(formatTotal(ms)).toBe(text);
+  });
+});
+
+describe('labelGroups', () => {
+  it('labels the most recent column and spans each group', () => {
+    expect(labelGroups(7, 1)).toEqual([0, 1, 2, 3, 4, 5, 6].map((index) => ({ index, span: 1 })));
+    expect(labelGroups(30, 5).map((g) => g.index)).toEqual([4, 9, 14, 19, 24, 29]);
+    expect(labelGroups(26, 4)).toEqual([
+      { index: 1, span: 2 },
+      ...[5, 9, 13, 17, 21, 25].map((index) => ({ index, span: 4 })),
+    ]);
   });
 });

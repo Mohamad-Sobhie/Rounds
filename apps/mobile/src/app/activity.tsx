@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStore } from 'zustand';
 
 import { activityStore } from '@/activity/activity';
-import { formatTotal, type Range, type Summary } from '@/activity/buckets';
+import { formatTotal, labelGroups, type Range, type Summary } from '@/activity/buckets';
 import { Icon } from '@/components/icon';
 import type { ActivityRecord } from '@/data/activities-repository';
 import { activityNames } from '@/templates/describe';
@@ -163,9 +163,13 @@ function Chart({ summary }: { summary: Summary }) {
         ))}
       </View>
       <View style={styles.labels}>
-        {summary.buckets.map((b, i) => (
-          <Text key={b.startUtc} style={styles.barLabel} numberOfLines={1}>
-            {(summary.buckets.length - 1 - i) % labelEvery === 0 ? b.label : ''}
+        {labelGroups(summary.buckets.length, labelEvery).map(({ index, span }) => (
+          <Text
+            key={summary.buckets[index]?.startUtc ?? index}
+            style={[styles.barLabel, { flex: span, textAlign: span > 1 ? 'right' : 'center' }]}
+            numberOfLines={1}
+          >
+            {summary.buckets[index]?.label}
           </Text>
         ))}
       </View>
