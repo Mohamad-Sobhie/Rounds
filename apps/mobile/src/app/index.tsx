@@ -63,6 +63,14 @@ export default function HomeScreen() {
         <Text style={styles.title}>Rounds</Text>
         <View style={styles.headerActions}>
           <Pressable
+            onPress={() => router.push('/activity')}
+            hitSlop={12}
+            accessibilityRole="button"
+            accessibilityLabel="Activity"
+          >
+            <Icon name="chart.bar" color={colors.ink} />
+          </Pressable>
+          <Pressable
             onPress={() => router.push('/template/new')}
             hitSlop={12}
             accessibilityRole="button"

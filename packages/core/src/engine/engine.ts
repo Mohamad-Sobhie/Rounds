@@ -80,6 +80,29 @@ export function evaluate(state: RunState, timeline: Timeline, nowUtc: number): S
   };
 }
 
+/**
+ * When the workout ended, in UTC ms, or null if it hasn't. A workout ends when it is stopped or
+ * when its position reaches the end of the timeline, which may be long before anyone looks
+ * (e.g. it finished while the app was in the background).
+ */
+export function endedAtUtc(state: RunState, timeline: Timeline, nowUtc: number): number | null {
+  if (state.stoppedAtUtc !== undefined) {
+    const naturalEnd = naturalEndUtc(state, timeline);
+    return naturalEnd !== null && naturalEnd < state.stoppedAtUtc ? naturalEnd : state.stoppedAtUtc;
+  }
+  const naturalEnd = naturalEndUtc(state, timeline);
+  return naturalEnd !== null && naturalEnd <= nowUtc ? naturalEnd : null;
+}
+
+/**
+ * When the position reaches the end if nothing else happens. Null while paused: a pause can only
+ * start before the end (the reducer ignores it afterwards), so a paused workout hasn't ended.
+ */
+function naturalEndUtc(state: RunState, timeline: Timeline): number | null {
+  if (state.pausedAtUtc !== undefined) return null;
+  return state.startedAtUtc + state.totalPausedMs + timeline.totalMs - state.seekMs;
+}
+
 /** The moment time stops for this state: when it was paused or stopped, otherwise `now`. */
 function frozenAt(state: RunState, nowUtc: number): number {
   return state.pausedAtUtc ?? state.stoppedAtUtc ?? nowUtc;

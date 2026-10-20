@@ -2,6 +2,7 @@ import { formatClock, type SegmentKind } from '@rounds/core';
 import { useKeepAwake } from 'expo-keep-awake';
 import { Redirect, router, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import { Alert, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStore } from 'zustand';
@@ -9,6 +10,7 @@ import { useStore } from 'zustand';
 import { Icon } from '@/components/icon';
 import { colors, fonts, phaseColors, space } from '@/theme';
 import { ProgressRings } from '@/workout/progress-rings';
+import { recordEndedWorkout } from '@/activity/activity';
 import { settingsStore } from '@/settings/settings';
 import { clock, sessionStore } from '@/workout/session';
 import { useSnapshot } from '@/workout/use-snapshot';
@@ -29,6 +31,11 @@ export default function WorkoutScreen() {
   const dispatch = useStore(sessionStore, (state) => state.dispatch);
   const snapshot = useSnapshot(sessionStore, clock);
   useWorkoutCues(sessionStore, settingsStore, clock, snapshot);
+
+  const ended = snapshot?.status === 'finished' || snapshot?.status === 'stopped';
+  useEffect(() => {
+    if (ended) void recordEndedWorkout();
+  }, [ended]);
   const { width, height } = useWindowDimensions();
 
   if (!workout) return <Redirect href="/" />;
