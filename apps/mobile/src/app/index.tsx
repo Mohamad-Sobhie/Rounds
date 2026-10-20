@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStore } from 'zustand';
 
 import { Icon } from '@/components/icon';
-import { colors, fonts, space } from '@/theme';
+import { colors, fonts, phaseColors, space } from '@/theme';
 import { presets } from '@/workout/presets';
 import { sessionStore } from '@/workout/session';
 
@@ -32,7 +32,7 @@ export default function HomeScreen() {
             <Text style={styles.rowTitle}>Resume {active.templateName}</Text>
             <Text style={styles.rowMeta}>Workout in progress</Text>
           </View>
-          <Icon name="play.fill" color={colors.paper} />
+          <Icon name="play.fill" color={colors.ink} />
         </Pressable>
       )}
 
@@ -48,7 +48,7 @@ export default function HomeScreen() {
             <Text style={styles.rowTitle}>{title}</Text>
             <Text style={styles.rowMeta}>{formatClock(totalDurationMs(template))}</Text>
           </View>
-          <Icon name="play.fill" color={colors.accent} />
+          <Icon name="play.fill" color={phaseColors.work} />
         </Pressable>
       ))}
     </SafeAreaView>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.displayHeavy,
     fontSize: 56,
-    color: colors.paper,
+    color: colors.ink,
     textTransform: 'uppercase',
     marginTop: space.xl,
     marginBottom: space.l,
@@ -77,14 +77,14 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.line,
   },
   resume: {
-    borderBottomColor: colors.accent,
+    borderBottomColor: colors.ink,
   },
   rowText: {
     flex: 1,
     gap: space.xs,
   },
   rowTitle: {
-    color: colors.paper,
+    color: colors.ink,
     fontSize: 17,
     fontWeight: '600',
   },

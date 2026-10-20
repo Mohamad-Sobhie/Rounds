@@ -8,7 +8,7 @@ A cardio interval timer built for use on a treadmill, bike or rower: big, glance
 > Status: in development. Work is tracked in [GitHub issues](https://github.com/Mohamad-Sobhie/Rounds/issues) by milestone.
 
 <p>
-  <img src="docs/screenshots/workout-ready.png" width="200" alt="Warm-up, ready to start" />
+  <img src="docs/screenshots/workout-warmup.png" width="200" alt="Warm-up in progress" />
   <img src="docs/screenshots/workout-work.png" width="200" alt="Work interval with progress rings" />
   <img src="docs/screenshots/workout-rest.png" width="200" alt="Rest interval" />
   <img src="docs/screenshots/workout-paused.png" width="200" alt="Recovery between rounds, paused" />

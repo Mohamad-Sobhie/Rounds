@@ -31,8 +31,8 @@ export default function WorkoutScreen() {
   if (!workout) return <Redirect href="/" />;
 
   const view = workoutView(workout.timeline, snapshot);
-  const phase = phaseColors[view.phase];
-  const fg = phase.foreground;
+  const accent = phaseColors[view.phase];
+  const fg = colors.ink;
   const ringSize = Math.min(width - space.xxl * 2, height * 0.4);
 
   const close = () => {
@@ -69,20 +69,20 @@ export default function WorkoutScreen() {
   };
 
   return (
-    <View style={[styles.screen, { backgroundColor: phase.background }]}>
+    <View style={styles.screen}>
       <Stack.Screen options={{ gestureEnabled: false, animation: 'fade' }} />
-      <StatusBar style={fg === colors.ink ? 'dark' : 'light'} />
+      <StatusBar style="dark" />
       <SafeAreaView style={styles.safe}>
         <View style={styles.topBar}>
           <IconButton icon="xmark" color={fg} onPress={confirmEnd} label="End workout" />
-          <Text style={[styles.phase, { color: fg }]}>
+          <Text style={[styles.phase, { color: isPaused ? colors.muted : accent }]}>
             {isPaused ? 'Paused' : phaseNames[view.phase]}
           </Text>
           <View style={styles.iconButton} />
         </View>
 
         <Text
-          style={[styles.label, { color: fg }]}
+          style={[styles.label, { color: accent }]}
           numberOfLines={1}
           adjustsFontSizeToFit
           accessibilityRole="header"
@@ -103,27 +103,27 @@ export default function WorkoutScreen() {
             segmentDurationMs={snapshot?.segment.durationMs ?? 1}
             totalDurationMs={workout.timeline.totalMs}
             running={view.status === 'running'}
-            color={fg}
-            trackColor={phase.track}
+            color={accent}
+            trackColor={colors.track}
           />
           <View style={[StyleSheet.absoluteFill, styles.ringCenter]}>
             <Text
               style={[
                 styles.countdown,
-                { color: fg, fontSize: ringSize * 0.34, opacity: isPaused ? 0.5 : 1 },
+                { color: isPaused ? colors.muted : fg, fontSize: ringSize * 0.34 },
               ]}
             >
               {view.countdown}
             </Text>
-            {isReady && <Text style={[styles.hint, { color: fg }]}>Tap to start</Text>}
+            {isReady && <Text style={[styles.hint, { color: colors.muted }]}>Tap to start</Text>}
           </View>
         </Pressable>
 
-        <Text style={[styles.next, { color: fg }]} numberOfLines={1}>
+        <Text style={[styles.next, { color: colors.muted }]} numberOfLines={1}>
           {view.next ? `Next: ${view.next}` : 'Last step'}
         </Text>
 
-        <View style={[styles.stats, { borderColor: phase.track }]}>
+        <View style={styles.stats}>
           <Stat label="Round" value={view.round ?? '–'} color={fg} />
           <Stat label="Interval" value={view.interval ?? '–'} color={fg} />
           <Stat label="Remaining" value={view.remaining} color={fg} />
@@ -139,11 +139,15 @@ export default function WorkoutScreen() {
           />
           <Pressable
             onPress={togglePause}
-            style={[styles.primary, { borderColor: fg }]}
+            style={[styles.primary, { backgroundColor: accent }]}
             accessibilityRole="button"
             accessibilityLabel={isReady ? 'Start' : isPaused ? 'Resume' : 'Pause'}
           >
-            <Icon name={isReady || isPaused ? 'play.fill' : 'pause.fill'} size={36} color={fg} />
+            <Icon
+              name={isReady || isPaused ? 'play.fill' : 'pause.fill'}
+              size={36}
+              color={colors.background}
+            />
           </Pressable>
           <IconButton
             icon="forward.end.fill"
@@ -161,7 +165,7 @@ export default function WorkoutScreen() {
 function Stat({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <View style={styles.stat}>
-      <Text style={[styles.statLabel, { color }]}>{label}</Text>
+      <Text style={styles.statLabel}>{label}</Text>
       <Text style={[styles.statValue, { color }]}>{value}</Text>
     </View>
   );
@@ -197,16 +201,16 @@ function Summary(props: {
 }) {
   return (
     <SafeAreaView style={[styles.screen, styles.summary]}>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <Text style={styles.summaryTitle}>{props.finished ? 'Done' : 'Stopped'}</Text>
       <Text style={styles.summaryName}>{props.name}</Text>
-      <View style={[styles.stats, { borderColor: colors.line }]}>
-        <Stat label="Active" value={formatClock(props.activeMs)} color={colors.paper} />
-        <Stat label="Planned" value={formatClock(props.plannedMs)} color={colors.paper} />
+      <View style={styles.stats}>
+        <Stat label="Active" value={formatClock(props.activeMs)} color={colors.ink} />
+        <Stat label="Planned" value={formatClock(props.plannedMs)} color={colors.ink} />
       </View>
       <Pressable
         onPress={props.onClose}
-        style={[styles.primaryWide, { backgroundColor: colors.accent }]}
+        style={[styles.primaryWide, { backgroundColor: colors.ink }]}
         accessibilityRole="button"
       >
         <Text style={styles.primaryWideText}>Close</Text>
@@ -218,6 +222,7 @@ function Summary(props: {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    backgroundColor: colors.background,
   },
   safe: {
     flex: 1,
@@ -267,8 +272,9 @@ const styles = StyleSheet.create({
   },
   stats: {
     flexDirection: 'row',
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.line,
     paddingVertical: space.m,
   },
   stat: {
@@ -281,7 +287,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 1.5,
     textTransform: 'uppercase',
-    opacity: 0.75,
+    color: colors.muted,
   },
   statValue: {
     fontFamily: fonts.displayHeavy,
@@ -307,7 +313,6 @@ const styles = StyleSheet.create({
   primary: {
     width: 88,
     height: 88,
-    borderWidth: 3,
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
@@ -321,7 +326,7 @@ const styles = StyleSheet.create({
   summaryTitle: {
     fontFamily: fonts.displayHeavy,
     fontSize: 120,
-    color: colors.paper,
+    color: colors.ink,
     textTransform: 'uppercase',
     textAlign: 'center',
   },
@@ -336,7 +341,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   primaryWideText: {
-    color: colors.ink,
+    color: colors.background,
     fontSize: 17,
     fontWeight: '700',
     textTransform: 'uppercase',
