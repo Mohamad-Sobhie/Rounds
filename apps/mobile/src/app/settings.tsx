@@ -1,11 +1,13 @@
 import type { CueSettings } from '@rounds/core';
 import { router } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStore } from 'zustand';
 
 import { Icon } from '@/components/icon';
 import { settingsStore } from '@/settings/settings';
+import { pickAndImportTemplates, shareTemplates } from '@/templates/share';
+import { templatesStore } from '@/templates/templates';
 import { colors, fonts, phaseColors, space } from '@/theme';
 
 const cueRows: { key: keyof CueSettings; label: string; detail: string }[] = [
@@ -83,6 +85,25 @@ export default function SettingsScreen() {
           Relative to your phone volume. Music keeps playing underneath.
         </Text>
 
+        <Text style={styles.section}>Templates</Text>
+        <ActionRow
+          label="Export all templates"
+          detail="Save or send them as a file"
+          onPress={() => void shareTemplates(templatesStore.getState().templates)}
+        />
+        <ActionRow
+          label="Import templates"
+          detail="Add templates from a Rounds file"
+          onPress={async () => {
+            try {
+              const message = await pickAndImportTemplates();
+              if (message) Alert.alert('Import', message);
+            } catch {
+              Alert.alert('Import', "That file couldn't be read.");
+            }
+          }}
+        />
+
         <Text style={styles.section}>Feedback</Text>
         <ToggleRow
           label="Vibration"
@@ -92,6 +113,18 @@ export default function SettingsScreen() {
         />
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+function ActionRow(props: { label: string; detail: string; onPress: () => void }) {
+  return (
+    <Pressable style={styles.row} onPress={props.onPress} accessibilityRole="button">
+      <View style={styles.rowText}>
+        <Text style={styles.rowLabel}>{props.label}</Text>
+        <Text style={styles.rowDetail}>{props.detail}</Text>
+      </View>
+      <Icon name="chevron.right" size={18} color={colors.muted} />
+    </Pressable>
   );
 }
 

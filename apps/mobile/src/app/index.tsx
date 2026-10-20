@@ -7,6 +7,7 @@ import { useStore } from 'zustand';
 
 import { Icon } from '@/components/icon';
 import { describeTemplate } from '@/templates/describe';
+import { shareTemplates } from '@/templates/share';
 import { templatesStore } from '@/templates/templates';
 import { colors, fonts, phaseColors, space } from '@/theme';
 import { sessionStore } from '@/workout/session';
@@ -32,6 +33,7 @@ export default function HomeScreen() {
     const actions: { label: string; run: () => void; destructive?: boolean }[] = [
       { label: 'Edit', run: () => router.push(`/template/${template.id}`) },
       { label: 'Duplicate', run: () => void store.duplicate(template.id) },
+      { label: 'Share', run: () => void shareTemplates([template]) },
       ...(index > 0 ? [{ label: 'Move up', run: () => void store.move(template.id, -1) }] : []),
       ...(index < templates.length - 1
         ? [{ label: 'Move down', run: () => void store.move(template.id, 1) }]
