@@ -1,0 +1,21 @@
+node_modules/
+.DS_Store
+*.log
+.env*.local
+coverage/
+dist/
+
+# Expo
+.expo/
+web-build/
+expo-env.d.ts
+ios/
+android/
+
+# Native builds
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
