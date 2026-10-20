@@ -109,3 +109,16 @@ function startOfDay(d: Date): Date {
 function addDays(d: Date, n: number): Date {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
 }
+
+/**
+ * Splits `count` chart columns into label groups of at most `every` columns, counted back from the
+ * most recent so today's column is always labelled. Each group is labelled with its last column
+ * and spans the full group width, so labels like "26" or "Mar 3" never get clipped.
+ */
+export function labelGroups(count: number, every: number): { index: number; span: number }[] {
+  const groups: { index: number; span: number }[] = [];
+  for (let end = count - 1; end >= 0; end -= every) {
+    groups.unshift({ index: end, span: Math.min(every, end + 1) });
+  }
+  return groups;
+}
