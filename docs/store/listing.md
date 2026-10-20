@@ -1,7 +1,8 @@
 # App Store listing
 
-**Name:** Rounds
-**Subtitle (30):** Interval timer for cardio
+**Name (App Store):** Rounds: Cardio Interval Timer ("Rounds" and "Rounds: Interval Timer" were taken)
+**Name (home screen):** Rounds
+**Subtitle (30):** Intervals you can hear
 **Category:** Health & Fitness
 
 **Promotional text (170):**

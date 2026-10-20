@@ -1,0 +1,67 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "version": "1.0",
+    "release": {
+      "automaticRelease": true
+    },
+    "info": {
+      "en-US": {
+        "title": "Rounds: Cardio Interval Timer",
+        "subtitle": "Intervals you can hear",
+        "promoText": "Intervals you can hear. Countdown beeps and spoken cues keep going with the screen locked, right over your music.",
+        "description": "Rounds is an interval timer built for the treadmill, bike and rower, where you can't keep staring at your phone.\n\nHEAR EVERY CHANGE\nCountdown beeps in the last three seconds of every step, a chime when the next one starts, and a voice that tells you what's next: \"Level 8, 1 minute\". Cues keep playing with the screen locked, on top of your own music.\n\nSEE IT FROM ACROSS THE ROOM\nA huge step label, a big countdown and progress rings, with one clear colour per phase: warm-up, work, rest, recovery and cooldown.\n\nBUILD THE WORKOUT YOU ACTUALLY DO\nRounds that differ from each other, blocks with repeats, labels like \"Incline 6\" or \"Speed 12\", a different rest on the last repeat, and recovery between rounds. Or just use Quick start: work, rest, repeat.\n\nKEEP TRACK\nEvery workout is logged with the time you actually exercised. See your week, month or year at a glance.\n\nPRIVATE BY DESIGN\nNo account, no ads, no tracking. Everything stays on your phone. Share templates as files when you want to.",
+        "keywords": [
+          "interval",
+          "timer",
+          "hiit",
+          "tabata",
+          "cardio",
+          "treadmill",
+          "bike",
+          "rower",
+          "workout",
+          "intervals",
+          "stopwatch",
+          "round",
+          "beep",
+          "coach"
+        ],
+        "supportUrl": "https://github.com/Mohamad-Sobhie/Rounds/issues",
+        "marketingUrl": "https://github.com/Mohamad-Sobhie/Rounds",
+        "privacyPolicyUrl": "https://github.com/Mohamad-Sobhie/Rounds/blob/main/docs/store/privacy-policy.md"
+      }
+    },
+    "advisory": {
+      "ageRatingOverride": "NONE",
+      "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+      "contests": "NONE",
+      "gambling": false,
+      "gamblingSimulated": "NONE",
+      "horrorOrFearThemes": "NONE",
+      "kidsAgeBand": null,
+      "koreaAgeRatingOverride": "NONE",
+      "lootBox": false,
+      "matureOrSuggestiveThemes": "NONE",
+      "medicalOrTreatmentInformation": "NONE",
+      "profanityOrCrudeHumor": "NONE",
+      "sexualContentGraphicAndNudity": "NONE",
+      "sexualContentOrNudity": "NONE",
+      "unrestrictedWebAccess": false,
+      "violenceCartoonOrFantasy": "NONE",
+      "violenceRealistic": "NONE",
+      "violenceRealisticProlongedGraphicOrSadistic": "NONE",
+      "advertising": false,
+      "ageAssurance": false,
+      "ageRatingOverrideV2": "NONE",
+      "developerAgeRatingInfoUrl": null,
+      "gunsOrOtherWeapons": "NONE",
+      "healthOrWellnessTopics": false,
+      "messagingAndChat": false,
+      "parentalControls": false,
+      "userGeneratedContent": false
+    },
+    "copyright": "2026 Mohamad Sobhie",
+    "categories": ["HEALTH_AND_FITNESS"]
+  }
+}
