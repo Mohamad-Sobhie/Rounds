@@ -2,17 +2,18 @@ import { formatClock, type SegmentKind } from '@rounds/core';
 import { useKeepAwake } from 'expo-keep-awake';
 import { Redirect, router, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStore } from 'zustand';
 
+import { recordEndedWorkout } from '@/activity/activity';
 import { Icon } from '@/components/icon';
+import { settingsStore } from '@/settings/settings';
 import { colors, fonts, phaseColors, space } from '@/theme';
 import { ProgressRings } from '@/workout/progress-rings';
-import { recordEndedWorkout } from '@/activity/activity';
-import { settingsStore } from '@/settings/settings';
 import { clock, sessionStore } from '@/workout/session';
+import { StepsSheet } from '@/workout/steps-sheet';
 import { useSnapshot } from '@/workout/use-snapshot';
 import { useWorkoutCues } from '@/workout/use-workout-cues';
 import { workoutView } from '@/workout/view-model';
@@ -37,6 +38,7 @@ export default function WorkoutScreen() {
     if (ended) void recordEndedWorkout();
   }, [ended]);
   const { width, height } = useWindowDimensions();
+  const [showSteps, setShowSteps] = useState(false);
 
   if (!workout) return <Redirect href="/" />;
 
@@ -88,7 +90,15 @@ export default function WorkoutScreen() {
           <Text style={[styles.phase, { color: isPaused ? colors.muted : accent }]}>
             {isPaused ? 'Paused' : phaseNames[view.phase]}
           </Text>
-          <View style={styles.iconButton} />
+          <Pressable
+            onPress={() => setShowSteps(true)}
+            hitSlop={12}
+            style={styles.iconButton}
+            accessibilityRole="button"
+            accessibilityLabel="Show all steps"
+          >
+            <Icon name="list.bullet" color={fg} />
+          </Pressable>
         </View>
 
         <Text
@@ -168,6 +178,12 @@ export default function WorkoutScreen() {
           />
         </View>
       </SafeAreaView>
+      <StepsSheet
+        visible={showSteps}
+        timeline={workout.timeline}
+        currentIndex={snapshot?.segmentIndex ?? 0}
+        onClose={() => setShowSteps(false)}
+      />
     </View>
   );
 }
