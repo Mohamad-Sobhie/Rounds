@@ -87,7 +87,10 @@ export default function WorkoutScreen() {
       <SafeAreaView style={styles.safe}>
         <View style={styles.topBar}>
           <IconButton icon="xmark" color={fg} onPress={confirmEnd} label="End workout" />
-          <Text style={[styles.phase, { color: isPaused ? colors.muted : accent }]}>
+          <Text
+            maxFontSizeMultiplier={1.2}
+            style={[styles.phase, { color: isPaused ? colors.muted : accent }]}
+          >
             {isPaused ? 'Paused' : phaseNames[view.phase]}
           </Text>
           <Pressable
@@ -102,6 +105,7 @@ export default function WorkoutScreen() {
         </View>
 
         <Text
+          maxFontSizeMultiplier={1.2}
           style={[styles.label, { color: accent }]}
           numberOfLines={1}
           adjustsFontSizeToFit
@@ -128,6 +132,7 @@ export default function WorkoutScreen() {
           />
           <View style={[StyleSheet.absoluteFill, styles.ringCenter]}>
             <Text
+              maxFontSizeMultiplier={1.2}
               style={[
                 styles.countdown,
                 { color: isPaused ? colors.muted : fg, fontSize: ringSize * 0.34 },
@@ -135,11 +140,19 @@ export default function WorkoutScreen() {
             >
               {view.countdown}
             </Text>
-            {isReady && <Text style={[styles.hint, { color: colors.muted }]}>Tap to start</Text>}
+            {isReady && (
+              <Text maxFontSizeMultiplier={1.2} style={[styles.hint, { color: colors.muted }]}>
+                Tap to start
+              </Text>
+            )}
           </View>
         </Pressable>
 
-        <Text style={[styles.next, { color: colors.muted }]} numberOfLines={1}>
+        <Text
+          maxFontSizeMultiplier={1.2}
+          style={[styles.next, { color: colors.muted }]}
+          numberOfLines={1}
+        >
           {view.next ? `Next: ${view.next}` : 'Last step'}
         </Text>
 
@@ -191,8 +204,12 @@ export default function WorkoutScreen() {
 function Stat({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <View style={styles.stat}>
-      <Text style={styles.statLabel}>{label}</Text>
-      <Text style={[styles.statValue, { color }]}>{value}</Text>
+      <Text maxFontSizeMultiplier={1.2} style={styles.statLabel}>
+        {label}
+      </Text>
+      <Text maxFontSizeMultiplier={1.2} style={[styles.statValue, { color }]}>
+        {value}
+      </Text>
     </View>
   );
 }
@@ -228,8 +245,12 @@ function Summary(props: {
   return (
     <SafeAreaView style={[styles.screen, styles.summary]}>
       <StatusBar style="dark" />
-      <Text style={styles.summaryTitle}>{props.finished ? 'Done' : 'Stopped'}</Text>
-      <Text style={styles.summaryName}>{props.name}</Text>
+      <Text maxFontSizeMultiplier={1.2} style={styles.summaryTitle}>
+        {props.finished ? 'Done' : 'Stopped'}
+      </Text>
+      <Text maxFontSizeMultiplier={1.2} style={styles.summaryName}>
+        {props.name}
+      </Text>
       <View style={styles.stats}>
         <Stat label="Active" value={formatClock(props.activeMs)} color={colors.ink} />
         <Stat label="Planned" value={formatClock(props.plannedMs)} color={colors.ink} />
@@ -239,7 +260,9 @@ function Summary(props: {
         style={[styles.primaryWide, { backgroundColor: colors.ink }]}
         accessibilityRole="button"
       >
-        <Text style={styles.primaryWideText}>Close</Text>
+        <Text maxFontSizeMultiplier={1.2} style={styles.primaryWideText}>
+          Close
+        </Text>
       </Pressable>
     </SafeAreaView>
   );
