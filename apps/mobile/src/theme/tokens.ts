@@ -1,37 +1,28 @@
 import type { SegmentKind } from '@rounds/core';
 
 /**
- * Design tokens. Direction: gym scoreboard. Flat saturated phase colours, one condensed display
- * face for numbers and cues, the system font for everything else, no gradients or shadows.
- * Text colours on phase backgrounds are chosen for WCAG AA contrast (ratios noted below).
+ * Design tokens. Direction: white canvas. The app is always white; each phase owns one accent
+ * colour used for the step label, the phase name, the rings and the primary control. One condensed
+ * display face for numbers and cues, the system font for everything else, no gradients or shadows.
+ * Contrast ratios against white are noted (WCAG AA is 4.5:1).
  */
 
-const ink = '#111213';
-const paper = '#F4F1EA';
-
 export const colors = {
-  ink,
-  paper,
-  background: '#0B0C0D',
-  surface: '#16181A',
-  line: '#2A2D30',
-  muted: '#8A8F94',
-  accent: '#FF4F1A',
+  background: '#FFFFFF',
+  surface: '#F6F5F2',
+  ink: '#1B1D1F', // 16.9:1
+  muted: '#6B6F73', // 5.1:1
+  line: '#E8E6E1',
+  /** Unfilled part of the progress rings. */
+  track: '#EFEDE8',
 } as const;
 
-export interface PhaseColors {
-  background: string;
-  foreground: string;
-  /** Track of the progress rings: the foreground at low opacity. */
-  track: string;
-}
-
-export const phaseColors: Record<SegmentKind, PhaseColors> = {
-  warmup: { background: '#F2A31B', foreground: ink, track: 'rgba(17,18,19,0.18)' }, // 8.96:1
-  work: { background: '#FF4F1A', foreground: ink, track: 'rgba(17,18,19,0.18)' }, // 5.70:1
-  rest: { background: '#0E6B66', foreground: paper, track: 'rgba(244,241,234,0.22)' }, // 5.62:1
-  recovery: { background: '#24507A', foreground: paper, track: 'rgba(244,241,234,0.22)' }, // 7.44:1
-  cooldown: { background: '#3F4A56', foreground: paper, track: 'rgba(244,241,234,0.22)' }, // 8.01:1
+export const phaseColors: Record<SegmentKind, string> = {
+  warmup: '#A85E08', // amber, 4.9:1
+  work: '#CC4118', // vermilion, 4.8:1
+  rest: '#0C846D', // teal, 4.6:1
+  recovery: '#2A64C8', // blue, 5.6:1
+  cooldown: '#6A55C2', // violet, 5.7:1
 };
 
 export const fonts = {
