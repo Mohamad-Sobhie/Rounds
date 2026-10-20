@@ -4,7 +4,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
+import { recordEndedWorkout } from '@/activity/activity';
 import { colors, fontAssets } from '@/theme';
+import { sessionStore } from '@/workout/session';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -15,6 +17,12 @@ export default function RootLayout() {
   useEffect(() => {
     if (ready) SplashScreen.hideAsync();
   }, [ready]);
+
+  // A workout may have finished while the app was closed: log it once the session is restored.
+  useEffect(() => {
+    if (sessionStore.persist.hasHydrated()) void recordEndedWorkout();
+    return sessionStore.persist.onFinishHydration(() => void recordEndedWorkout());
+  }, []);
 
   if (!ready) return null;
 

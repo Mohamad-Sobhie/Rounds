@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { block, rest, round, template, work } from '../test/builders';
 import { compile } from '../timeline';
 import { FakeClock } from './clock';
-import { apply, evaluate, SKIP_BACK_GRACE_MS } from './engine';
+import { apply, endedAtUtc, evaluate, SKIP_BACK_GRACE_MS } from './engine';
 import type { EngineCommand, RunState } from './state';
 
 /*
@@ -344,3 +344,44 @@ describe('engine', () => {
     });
   });
 });
+
+describe('endedAtUtc', () => {
+  const start = (): RunState => ({ startedAtUtc: T0, totalPausedMs: 0, seekMs: 0 });
+
+  it('is null while running before the end', () => {
+    expect(endedAtUtc(start(), timeline, T0 + s(100))).toBeNull();
+  });
+
+  it('is the moment the end was reached, even if observed much later', () => {
+    expect(endedAtUtc(start(), timeline, T0 + s(3600))).toBe(T0 + s(150));
+  });
+
+  it('accounts for pauses and skips', () => {
+    let state: RunState | null = start();
+    state = apply(state, { type: 'pause', atUtc: T0 + s(10) }, timeline);
+    state = apply(state, { type: 'resume', atUtc: T0 + s(40) }, timeline);
+    state = apply(state, { type: 'skipForward', atUtc: T0 + s(50) }, timeline); // 20 s → 60 s
+    // 30 s paused, 40 s skipped: the 150 s timeline ends 140 s after the start.
+    expect(endedAtUtc(must(state), timeline, T0 + s(3600))).toBe(T0 + s(140));
+  });
+
+  it('is null while paused before the end', () => {
+    const paused = must(apply(start(), { type: 'pause', atUtc: T0 + s(10) }, timeline));
+    expect(endedAtUtc(paused, timeline, T0 + s(3600))).toBeNull();
+  });
+
+  it('is the stop time when stopped early', () => {
+    const stopped = must(apply(start(), { type: 'stop', atUtc: T0 + s(30) }, timeline));
+    expect(endedAtUtc(stopped, timeline, T0 + s(3600))).toBe(T0 + s(30));
+  });
+
+  it('is the natural end when stop came after the workout had already finished', () => {
+    const stopped: RunState = { ...start(), stoppedAtUtc: T0 + s(500) };
+    expect(endedAtUtc(stopped, timeline, T0 + s(3600))).toBe(T0 + s(150));
+  });
+});
+
+function must(state: RunState | null): RunState {
+  if (!state) throw new Error('expected a state');
+  return state;
+}
