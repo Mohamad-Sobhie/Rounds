@@ -8,6 +8,7 @@
     "@shopify/react-native-skia": "2.14.0",
     "expo": "~58.0.16",
     "expo-constants": "~58.0.12",
+    "expo-crypto": "~58.0.7",
     "expo-font": "~58.0.9",
     "expo-haptics": "~58.0.7",
     "expo-keep-awake": "~58.0.3",
@@ -32,9 +33,11 @@
     "@testing-library/react-native": "^14.1.0",
     "@types/jest": "30.0.0",
     "@types/react": "~19.3.0",
+    "@types/sql.js": "^1.4.11",
     "eslint-config-expo": "~58.0.4",
     "jest": "~30.5.2",
     "jest-expo": "~58.0.11",
+    "sql.js": "^1.15.1",
     "typescript": "~6.0.3"
   },
   "scripts": {
