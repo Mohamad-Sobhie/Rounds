@@ -10,9 +10,7 @@
     "ios": {
       "bundleIdentifier": "com.mohamadsobhie.rounds",
       "infoPlist": {
-        "UIBackgroundModes": [
-          "audio"
-        ],
+        "UIBackgroundModes": ["audio"],
         "ITSAppUsesNonExemptEncryption": false
       },
       "supportsTablet": false
